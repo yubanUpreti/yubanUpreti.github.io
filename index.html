@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="user.png" type="image/x-icon" />
+    <title>My GitHub Profile</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Aleo' rel='stylesheet'>
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <style type="text/css">
+
+  body {
+    font-family: 'Aleo';font-size: 16px;background-color: lavender;}
+  .button.is-hovered, .button:hover {
+    border-color: #3298dc;
+    color: #3298dc;}
+    </style>
+  </head>
+  <body>
+<nav class="navbar is-transparent">
+  <div class="navbar-brand">
+    <a class="navbar-item" href="https://yubanUpreti.github.io">
+      <img src="main_head.png" alt="Github Portfolio Icon" width="112" height="28">
+    </a>
+  </div>
+
+   <div class="navbar-end">
+      <div class="navbar-item">
+        <div class="field is-grouped">
+          <p class="control">
+            <a class="bd-tw-button button" data-social-network="Twitter" data-social-action="tweet" data-social-target="https://twitter.com/ThePSF" target="_blank" href="https://twitter.com/ThePSF">
+              <span class="icon">
+                <i class="fab fa-twitter"></i>
+              </span>
+              <span>
+                Follow Me
+              </span>
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+
+<section id="progess_main" class="section">
+<div class="container">
+  <h1>Loading...</h1>
+  <progress class="progress is-large is-success" max="100">60%</progress>
+ </div>
+ </section> 
+
+<section id="main" class="section is-hidden">
+<div class="container">
+<div class="card">
+
+  <div class="card-content">
+    <div class="media">
+      <div class="media-left">
+        <figure class="image is-128x128">
+          <img id="pImg"  alt="Placeholder image">
+        </figure>
+      </div>
+      <div class="media-content">
+        <p id="uName" class="title is-4"></p>
+        <p id ="uEmail" class="subtitle is-6"></p>
+        <p id ="uLocation" class="subtitle is-6"></p>
+
+      </div>
+    </div>
+
+    <div class="content">
+      <p id ="uUrl" class="subtitle is-6"></p>
+      <p id ="uBio" class="subtitle is-6"></p>
+      <br>
+      <p class="title is-4">Repos Information</p>
+
+  <table class="table">
+  <thead>
+    <tr>
+      <th><abbr title="Number">S/N</abbr></th>
+      <th><abbr title="Repository Name">Repo Name</abbr></th>
+      <th><abbr title="Stars">Stars</abbr></th>
+      <th><abbr title="Repository Created Date">Date</abbr></th>
+    </tr>
+  </thead>
+  <tfoot>
+    <tr>
+      <th><abbr title="Number">S/N</abbr></th>
+      <th><abbr title="Repository Name">Repo Name</abbr></th>
+      <th><abbr title="Stars">Star</abbr></th>
+      <th><abbr title="Repository Created Date">Date</abbr></th>
+    </tr>
+  </tfoot>
+  <tbody id="table_data">
+
+  </tbody>
+</table>
+    </div>
+  </div>
+
+    <div class="card-image">
+       <a class="twitter-timeline" data-width="1080" data-height="640" href="https://twitter.com/ThePSF?ref_src=twsrc%5Etfw">Tweets by ThePSF</a> 
+    <figure class="image is-2by1">
+      <img id="pyImage"  alt="Placeholder image">
+    </figure>
+  </div>
+</div>
+    </div>
+  </section>
+  <script type="text/javascript">
+    
+    // https://api.github.com/users/yubanUpreti
+
+$.ajax({
+  url: "https://api.github.com/users/yubanUpreti",
+  jsonp: true,
+  method: "GET",
+  dataType: "json",
+  success: function(res) {
+   $("#pImg").attr('src',res['avatar_url']);
+    $("#uName").text(res['name']);
+    $("#uLocation").text(res['location']);
+    $("#uUrl").append("Github Link: <a href="+res['html_url']+">"+res['html_url']+"</a>");
+    $("#uBio").text(res['bio']);
+    if( res['email'] == null){
+      $("#uEmail").append("<a href='mailto:yubanupreti@gmail.com'>yubanupreti@gmail.com</a>"); 
+    }else{
+      $("#uEmail").append("<a href='mailto:"+res['email']+"'>"+res['email']+"</a>");
+    }
+    $("#pyImage").attr('src','https://miro.medium.com/max/1200/1*RJMxLdTHqVBSijKmOO5MAg.jpeg');
+  }
+
+
+
+});
+fetch("https://api.github.com/users/yubanUpreti/repos").then(response => response.json()).then(function(data){
+  for (var i = 0; i < data.length; i++) {
+        $("#table_data").append(
+ '<tr><th>'+ (i+1) +'</th><td>'+data[i]['name']+'</td><td>'+data[i]['stargazers_count']+'</td><td>'+ data[i]['created_at']+'</td></tr>');
+   }
+
+ $("#main").attr("class","section");
+ $("#progess_main").attr("class","section is-hidden");
+
+
+
+})
+
+
+
+  </script>
+ <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+  </body>
+</html>
